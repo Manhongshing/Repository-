@@ -8,7 +8,7 @@ FC*FC Play (+18)
 This is a Free Video Player of [FC2 Video](http://video.fc2.com/).  
 URL: [http://fc2play.com](http://fc2play.com/)
 
-# Feature
+# Features
 ## Watch Videos for Free Unlimitedly
 In original service ([FC2 Video](http://video.fc2.com/)), you can play **only 8 times/day** for free.
 

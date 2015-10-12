@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe WeeklyRank do
-  describe 'Association' do
-    it { should belong_to(:video) }
-  end
-
   context 'getting information from fc2' do
     before(:each) do
       create(:history, user_id: 1,

@@ -7,7 +7,6 @@ require 'factory_girl_rails'
 require 'database_rewinder'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
-require 'shoulda/matchers'
 Coveralls.wear!('rails')
 SimpleCov.start 'rails'
 
@@ -22,7 +21,7 @@ Capybara.register_driver :poltergeist do |app|
 end
 Capybara.default_driver   = :rack_test
 Capybara.default_selector = :css
-Capybara.default_wait_time = 5
+Capybara.default_max_wait_time = 5
 
 # Add additional requires below this line. Rails is not loaded until this point!
 

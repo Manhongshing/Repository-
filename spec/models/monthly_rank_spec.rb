@@ -12,10 +12,6 @@ RSpec.describe MonthlyRank do
     create_list(:fav4his, 10)
   end
 
-  describe 'Association' do
-    it { should belong_to(:video) }
-  end
-
   describe '# Video.hot.monthly size' do
     it 'should make 300 ranks' do
       MonthlyRank.update

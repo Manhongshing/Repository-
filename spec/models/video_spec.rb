@@ -1,23 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Video do
-  describe 'Association' do
-    it { should have_many(:favs) }
-    it { should have_many(:histories) }
-    it { should have_many(:monthly_ranks) }
-    it { should have_many(:weekly_ranks) }
-    it { should have_many(:new_arrivals) }
-  end
-
-  describe 'Validation' do
-    it { should validate_presence_of(:title) }
-    it { should validate_presence_of(:url) }
-    it { should validate_presence_of(:views) }
-    it { should validate_presence_of(:duration) }
-    it { should validate_presence_of(:image_url) }
-    it { should validate_presence_of(:bookmarks) }
-  end
-
   describe '#available_on_fc2?' do
     context 'url of the video is not valid' do
       it 'should return false' do

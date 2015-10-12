@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe History do
-  describe 'Association' do
-    it { should belong_to(:user) }
-    it { should belong_to(:video) }
-  end
-
   describe '#rename_user_history' do
     it 'rename tmp_user_id to new user_id' do
       create(:history, user_id: 1_234_567)

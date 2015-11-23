@@ -12,7 +12,7 @@ class UsersController < ApplicationController
         toast :error, '登録に失敗しました。もう一度試してみてください'
       end
     end
-    redirect_to previous_page
+    redirect_to previous_page_path
   end
 
   def destroy

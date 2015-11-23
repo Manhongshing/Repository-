@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
     session[:request_from] = request.original_url
   end
 
-  def previous_page
+  def previous_page_path
     session[:request_from] || root_path
   end
 

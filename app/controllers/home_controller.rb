@@ -49,7 +49,7 @@ class HomeController < ApplicationController
     else
       toast :error, '報告に失敗しました。もう一度試してみてください。'
     end
-    redirect_to previous_page
+    redirect_to previous_page_path
   end
 
   private

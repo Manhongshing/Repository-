@@ -11,7 +11,7 @@ module InitializeAction
     if current_user
       @favs = current_user.fav_list
     else
-      session[:temp_id] ||= make_tmp_user_id
+      session[:temp_id] ||= genarate_tmp_user_id
     end
     @histories = Video.user_histories(user_id)
     @bug_report = BugReport.new
@@ -19,7 +19,7 @@ module InitializeAction
 
   private
 
-  def make_tmp_user_id
+  def genarate_tmp_user_id
     loop do
       tmp_id = rand(8_999_999) + 1_000_000
       return tmp_id if History.find_by(user_id: tmp_id).blank?

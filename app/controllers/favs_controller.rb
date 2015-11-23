@@ -1,10 +1,10 @@
 class FavsController < ApplicationController
   before_action :set_fav, only: [:update, :destroy]
   before_action :set_user_fav_list
-  after_filter :flash_clear
+  after_action :flash_clear
 
   def update
-    if set_user_id && @fav.update(fav_params)
+    if authorized? && @fav.update(fav_params)
       toast :success, 'コメントを更新しました'
     else
       toast :error, '更新に失敗しました。もう一度試してみてください。'
@@ -23,7 +23,7 @@ class FavsController < ApplicationController
   end
 
   def destroy
-    if set_user_id && @fav.destroy
+    if authorized? && @fav.destroy
       toast :success, 'お気に入りを削除しました'
     else
       toast :error, '削除に失敗しました。もう一度試してみてください。'
@@ -36,13 +36,12 @@ class FavsController < ApplicationController
     @fav = Fav.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet.
-  def fav_params
-    params.require(:fav).permit(:comment, :video_id)
+  def authorized?
+    @fav.user_id == current_user.id
   end
 
-  def set_user_id
-    @fav.user_id == current_user.id
+  def fav_params
+    params.require(:fav).permit(:comment, :video_id)
   end
 
   def set_user_fav_list
@@ -52,10 +51,8 @@ class FavsController < ApplicationController
   def valid_fav?
     if @fav.exist?
       toast :warning, 'この動画はすでに登録されています'
-      false
     elsif @fav.more_than_100?
       toast :warning, 'これ以上お気に入りに追加できません。(最大100件)'
-      false
     else
       true
     end

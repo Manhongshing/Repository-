@@ -15,6 +15,10 @@ class Fc2
     @available = false
   end
 
+  def available?
+    @available
+  end
+
   class << self
     module Constants
       # FC2からのスクレイピングのパス

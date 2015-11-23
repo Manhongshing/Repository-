@@ -3,7 +3,7 @@ class HomeController < ApplicationController
   include InitializeAction
 
   before_action :save_current_url, only: [:play, :search]
-  after_filter :flash_clear, only: [:search]
+  after_action :flash_clear, only: [:search]
 
   def index
     set_user_info
@@ -19,9 +19,9 @@ class HomeController < ApplicationController
 
   def play
     @video = Video.find_by_title(params[:title])
-    unless prepare_video
-      redirect_to root_url
-      return
+    unless @video.present? && @video.available_on_fc2?
+      toast :error, 'この動画はFC2で既に削除されているようです'
+      return redirect_to root_url
     end
 
     set_ranking
@@ -53,23 +53,6 @@ class HomeController < ApplicationController
   end
 
   private
-
-  def prepare_video
-    if @video.blank?
-      toast :error, 'タイトルに何か問題があるようです'
-      return false
-    elsif !get_video_from_fc2
-      toast :error, 'この動画はFC2で既に削除されているようです　FC*FC Playからも削除しました'
-      @video.destroy
-      return false
-    end
-    true
-  end
-
-  def get_video_from_fc2
-    @fc2 = Fc2.new(@video.url)
-    @fc2.available
-  end
 
   def create_watch_history
     if session[:previous_video_url] != @video.url

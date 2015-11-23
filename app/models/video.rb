@@ -53,12 +53,19 @@ class Video < ActiveRecord::Base
   }
 
   def available_on_fc2?
-    Fc2.new(url).available
+    Fc2.new(url).available?
+    destroy unless result
+    result
   end
 
   # プレイヤーで参照するURL
   def ref_url
     url.split('/').last
+  end
+
+  def duration_sec
+    min, sec = duration.split(':').map(&:to_i)
+    min * 60 + sec
   end
 
   class << self

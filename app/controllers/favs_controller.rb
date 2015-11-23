@@ -51,8 +51,10 @@ class FavsController < ApplicationController
   def valid_fav?
     if @fav.exist?
       toast :warning, 'この動画はすでに登録されています'
+      false
     elsif @fav.more_than_100?
       toast :warning, 'これ以上お気に入りに追加できません。(最大100件)'
+      false
     else
       true
     end

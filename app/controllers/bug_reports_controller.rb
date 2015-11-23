@@ -1,5 +1,5 @@
 class BugReportsController < ApplicationController
-  after_filter :flash_clear
+  after_action :flash_clear
 
   def create
     report = BugReport.new(content: params[:content])

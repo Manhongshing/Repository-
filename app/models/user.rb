@@ -2,8 +2,7 @@ class User < ActiveRecord::Base
   has_many :favs
   has_many :histories
   has_secure_password
-  validates_presence_of :name
-  validates_uniqueness_of :name
+  validates :name, presence: true, uniqueness: true
 
   def save_and_rewrite_his(tmp_user_id)
     ActiveRecord::Base.transaction do

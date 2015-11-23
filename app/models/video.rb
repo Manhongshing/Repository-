@@ -6,14 +6,14 @@ class Video < ActiveRecord::Base
   has_many :monthly_ranks, dependent: :destroy
   has_many :weekly_ranks, dependent: :destroy
   has_many :new_arrivals, dependent: :destroy
-  validates_presence_of :title
-  validates_presence_of :url
-  validates_presence_of :views
-  validates_presence_of :duration
-  validates_presence_of :image_url
-  validates_presence_of :bookmarks
-  validates_inclusion_of :adult, in: [true, false]
-  validates_inclusion_of :morethan100min, in: [true, false]
+  validates :title, presence: true
+  validates :url, presence: true
+  validates :views, presence: true
+  validates :duration, presence: true
+  validates :image_url, presence: true
+  validates :bookmarks, presence: true
+  validates :adult, inclusion: { in: [true, false] }
+  validates :morethan100min, inclusion: { in: [true, false] }
 
   scope :title_is, ->(keywords) {
     sql = (['(title LIKE ?)'] * keywords.length).join(' AND ')
@@ -49,13 +49,11 @@ class Video < ActiveRecord::Base
       .bookmarks_is(bookmarks)
       .duration_is(duration)
       .order('bookmarks DESC')
-      .limit(200)
+      .limit(SEARCH_LIMIT)
   }
 
   def available_on_fc2?
     Fc2.new(url).available?
-    destroy unless result
-    result
   end
 
   # プレイヤーで参照するURL

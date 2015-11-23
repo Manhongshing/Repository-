@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:update, :destroy]
-  after_filter :flash_clear, only: [:update]
+  after_action :flash_clear, only: [:update]
 
   def create
     @user = User.new(user_params)
-    @user.size = 750
+    @user.size = DEFAULT_WINDOW_SIZE
     if valid_user?
       if @user.save_and_rewrite_his(session[:user_id])
         toast :success, '登録しました'

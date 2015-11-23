@@ -12,19 +12,6 @@ RSpec.describe Record do
     end
   end
 
-=begin this cannot pass on TravisCI
-  describe '#create_yesterday_his' do
-    it 'create new 7 records' do
-      start_day = Date.new(2014, 10, 8)
-      Timecop.freeze(start_day + 14) do
-        expect do
-          Record.create_yesterday_his
-        end.to change(Record, :count).by(7)
-      end
-    end
-  end
-=end
-
   describe '#create_reports' do
     it 'returns 8 reports' do
       start_day = Date.new(2014, 10, 8)

@@ -21,6 +21,10 @@ Documentation:
 AllCops:
   Exclude:
     - db/schema.rb
-    - config/unicorn.rb
-    - config/unicorn_staging.rb
+    - db/seeds.rb
+    - config/**/*
     - tmp/**/*
+    - vendor/**/*
+    - bin/**/*
+    - spec/spec_helper.rb
+    - spec/rails_helper.rb

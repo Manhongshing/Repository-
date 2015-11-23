@@ -1,5 +1,5 @@
 class WindowsController < ApplicationController
-  after_filter :flash_clear
+  after_action :flash_clear
 
   def change_size
     @window = Window.new(params[:size])

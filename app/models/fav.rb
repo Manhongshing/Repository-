@@ -1,9 +1,8 @@
 class Fav < ActiveRecord::Base
   belongs_to :user
   belongs_to :video
-
-  validates_presence_of :video_id
-  validates_presence_of :user_id
+  validates :video_id, presence: true
+  validates :user_id, presence: true
 
   scope :list, ->(uid) {
     where(user_id: uid)

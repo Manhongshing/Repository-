@@ -1,5 +1,5 @@
 class Survey < ActiveRecord::Base
-  validates_presence_of :result
+  validates :result, presence: true
 
   class << self
     # 管理者用(admin)

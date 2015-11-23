@@ -3,7 +3,7 @@ class HomeController < ApplicationController
   include InitializeAction
 
   before_action :save_current_url, only: [:play, :search]
-  after_filter :flash_clear, only: [:search]
+  after_action :flash_clear, only: [:search]
 
   def index
     set_user_info
@@ -19,10 +19,7 @@ class HomeController < ApplicationController
 
   def play
     @video = Video.find_by_title(params[:title])
-    unless prepare_video
-      redirect_to root_url
-      return
-    end
+    return redirect_to root_url unless available_video?
 
     set_ranking
     set_user_info
@@ -32,9 +29,9 @@ class HomeController < ApplicationController
   end
 
   def search
-    get_search_conditions
+    set_search_conditions
     @results = Video.search(@keywords_array, @bookmarks, @duration)
-    toast :warning, '検索結果が多すぎるため、一部のみ表示しています' if @results.size == 200
+    toast :warning, '検索結果が多すぎるため、一部のみ表示しています' if @results.count == SEARCH_LIMIT
 
     SearchHis.create(keyword: @keyword,
                      favs: @bookmarks,
@@ -49,26 +46,22 @@ class HomeController < ApplicationController
     else
       toast :error, '報告に失敗しました。もう一度試してみてください。'
     end
-    redirect_to previous_page
+    redirect_to previous_page_path
   end
 
   private
 
-  def prepare_video
+  def available_video?
     if @video.blank?
       toast :error, 'タイトルに何か問題があるようです'
-      return false
-    elsif !get_video_from_fc2
-      toast :error, 'この動画はFC2で既に削除されているようです　FC*FC Playからも削除しました'
+      false
+    elsif !@video.available_on_fc2?
+      toast :error, 'この動画はFC2で既に削除されているようです'
       @video.destroy
-      return false
+      false
+    else
+      true
     end
-    true
-  end
-
-  def get_video_from_fc2
-    @fc2 = Fc2.new(@video.url)
-    @fc2.available
   end
 
   def create_watch_history
@@ -80,12 +73,12 @@ class HomeController < ApplicationController
     session[:previous_video_url] = @video.url
   end
 
-  def get_search_conditions
+  def set_search_conditions
     search_keyword = params[:keyword] || ''
     @keyword = (search_keyword.gsub(/(　)+/, "\s"))
     @keywords_array = @keyword.split("\s")
-    @bookmarks = params[:bookmarks] || 'no'
-    @duration = params[:duration] || 'no'
+    @bookmarks = params[:bookmarks] || DEFAULT_BOOKMARKS_OPTION
+    @duration = params[:duration] || DEFAULT_DURATION_OPTIONS
   end
 
   def set_previous_search_condition

@@ -39,9 +39,6 @@ gem 'sprockets'
 ### for bulk insert
 gem 'activerecord-import'
 
-### for errbit
-gem 'airbrake'
-
 gem 'unicorn'
 
 group :deployment do

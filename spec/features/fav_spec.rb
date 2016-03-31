@@ -4,7 +4,7 @@ include DataHelper
 RSpec.describe HomeController, type: :feature do
   before(:each) do
     create_base_data
-    Fc2.scrape('adult', 10_000, 10_001)
+    Fc2.scrape('adult', 10_000, 10_000)
   end
 
   context 'not login' do
@@ -42,24 +42,27 @@ RSpec.describe HomeController, type: :feature do
       expect(page).to have_content(video.title)
       click_link(video.title)
 
-      # 再生ページ(play_specの代わり)
-      expect(page.has_css?('#delete_video')).to be_truthy
-      expect(page.has_css?('#add_fav')).to be_truthy
-
-      fill_in 'fav_comment', with: 'お気に入りだー'
-      click_button('お気に入り登録')
-
-      click_link('お気に入り')
+      # 再生ページ(play_specの代わり, 新規タブ)
       sleep 1
+      within_window(windows.last) do
+        expect(page.has_css?('#delete_video')).to be_truthy
+        expect(page.has_css?('#add_fav')).to be_truthy
 
-      expect(page.find('#favTable_wrapper')).to have_content('お気に入りだー')
-      expect(page.find('#favTable_wrapper')).to have_content(video.title)
+        fill_in 'fav_comment', with: 'お気に入りだー'
+        click_button('お気に入り登録')
 
-      # 設定変更(setting_specの代わり)
-      click_link('設定/使い方')
-      click_button('大')
-      sleep 1
-      expect(page).to have_content('ウィンドウサイズを 大 に変更しました。')
+        click_link('お気に入り')
+        sleep 1
+
+        expect(page.find('#favTable_wrapper')).to have_content('お気に入りだー')
+        expect(page.find('#favTable_wrapper')).to have_content(video.title)
+
+        # 設定変更(setting_specの代わり)
+        click_link('設定/使い方')
+        click_button('大')
+        sleep 1
+        expect(page).to have_content('ウィンドウサイズを 大 に変更しました。')
+      end
 
       # 履歴チャック(history_specの代わり)
       visit '/'

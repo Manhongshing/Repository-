@@ -18,14 +18,17 @@ RSpec.describe HomeController, type: :feature do
       expect(page).to have_content(video.title)
       click_link(video.title)
 
-      # 再生ページ
-      expect(page.has_css?('#delete_video')).to be_truthy
-
-      # 設定変更(setting_specの代わり)
-      click_link('設定/使い方')
-      click_button('大')
+      # 再生ページ (新規タブ)
       sleep 1
-      expect(page).to have_content('ウィンドウサイズを 大 に変更しました。')
+      within_window(windows.last) do
+        expect(page.has_css?('#delete_video')).to be_truthy
+
+        # 設定変更(setting_specの代わり)
+        click_link('設定/使い方')
+        click_button('大')
+        sleep 1
+        expect(page).to have_content('ウィンドウサイズを 大 に変更しました。')
+      end
     end
   end
 

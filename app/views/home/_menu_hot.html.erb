@@ -21,7 +21,7 @@
 								<div class="col-md-120px">
 									<%= link_to image_tag(@week[i].image_url, width: 108, height: 81), play_path(title: @week[i].title) %>
 								</div>
-								<%= @week[i].adult ? (link_to @week[i].title, play_path(title: @week[i].title), class: "text-danger") : (link_to @week[i].title, play_path(title: @week[i].title)) %>
+								<%= @week[i].adult ? (link_to @week[i].title, play_path(title: @week[i].title), class: "text-danger", target: '_blank') : (link_to @week[i].title, play_path(title: @week[i].title), target: '_blank') %>
 							</td>
 							<td>
 								<% if @week[i].duration %>
@@ -34,7 +34,7 @@
 								<div class="col-md-120px">
 									<%= link_to image_tag(@month[i].image_url, width: 108, height: 81), play_path(title: @month[i].title) %>
 								</div>
-								<%= @month[i].adult ? (link_to @month[i].title, play_path(title: @month[i].title), class: "text-danger") : (link_to @month[i].title, play_path(title: @month[i].title)) %>
+								<%= @month[i].adult ? (link_to @month[i].title, play_path(title: @month[i].title), class: "text-danger", target: '_blank') : (link_to @month[i].title, play_path(title: @month[i].title), target: '_blank') %>
 							</td>
 							<td>
 								<% if @month[i].duration %>

@@ -16,7 +16,7 @@
 							<div class="col-md-120px">
 								<%= link_to image_tag(video.image_url, width: 108, height: 81), play_path(title: video.title) %>
 							</div>
-							<%= video.adult ? (link_to video.title, play_path(title: video.title), class: "text-danger") : (link_to video.title, play_path(title: video.title)) %>
+							<%= video.adult ? (link_to video.title, play_path(title: video.title), class: "text-danger", target: '_blank') : (link_to video.title, play_path(title: video.title), target: '_blank') %>
 						</td>
 						<td>
 							<% if video.duration %>

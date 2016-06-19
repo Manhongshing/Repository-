@@ -11,11 +11,11 @@ working_directory "#{app_path}/current/"
 worker_processes 4
 preload_app true
 timeout 300
-listen '/tmp/unicorn.sock', backlog: 64
-pid "#{app_shared_path}/tmp/pids/unicorn.pid"
+listen '/tmp/fc2play.sock', backlog: 64
+pid "#{app_shared_path}/tmp/pids/fc2play.pid"
 
-stderr_path "#{app_path}/log/unicorn.stderr.log"
-stdout_path "#{app_path}/log/unicorn.stdout.log"
+stderr_path "#{app_path}/log/fc2play.stderr.log"
+stdout_path "#{app_path}/log/fc2play.stdout.log"
 
 before_fork do |_server, _worker|
   ENV['BUNDLE_GEMFILE'] = File.expand_path('Gemfile', ENV['RAILS_ROOT'])

@@ -4,7 +4,7 @@ include DataHelper
 RSpec.describe HomeController, type: :feature do
   before(:each) do
     create_base_data
-    Fc2.scrape('adult', 10_000, 10_000)
+    Fc2.scrape('adult', 10_000, 10_001)
   end
 
   context 'not login' do

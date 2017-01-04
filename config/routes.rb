@@ -11,6 +11,8 @@ Fc2play::Application.routes.draw do
   get 'admin' => 'admin#index', as: :admin
   get 'play' => 'home#play', as: :play
   get 'search' => 'home#search', as: :search
+  get 'flash_tag' => 'home#flash_tag', as: :flash_tag
+  get 'get_path' => 'home#get_path', as: :get_path
   post 'bug_report' => 'bug_reports#create', as: :bug_report
   post 'change_window_size' => 'windows#change_size', as: :change_window_size
   delete 'report' => 'home#report', as: :report

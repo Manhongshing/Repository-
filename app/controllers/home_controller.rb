@@ -1,4 +1,12 @@
 # Home Controller
+require 'capybara'
+require 'capybara/dsl'
+require 'capybara/poltergeist'
+include Capybara::DSL
+Capybara.javascript_driver = :poltergeist
+Capybara.default_selector = :css
+Capybara.default_max_wait_time = 5
+
 class HomeController < ApplicationController
   include InitializeAction
 
@@ -47,6 +55,19 @@ class HomeController < ApplicationController
       toast :error, '報告に失敗しました。もう一度試してみてください。'
     end
     redirect_to previous_page_path
+  end
+
+  # for download path scraping
+  def flash_tag
+    @video = Video.find_by_title(params[:title])
+    render layout: false
+  end
+
+  def get_path
+    @video = Video.find_by_title(params[:title])
+    visit "/flash_tag?title=#{@video.title}"
+    @movie_path = page.text
+    render layout: false
   end
 
   private

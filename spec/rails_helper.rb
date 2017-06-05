@@ -4,7 +4,6 @@ require 'open-uri'
 
 require 'spec_helper'
 require 'factory_girl_rails'
-require 'database_rewinder'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 Coveralls.wear!('rails')

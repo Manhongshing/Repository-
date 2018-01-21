@@ -65,7 +65,7 @@ class Fc2
       params = {}
       params[:title] = elm.xpath(TITLE_PATH).first.content
       params[:duration] = elm.xpath(DURATION_PATH).first.content
-      params[:url] = elm.xpath(URL_PATH).first['href']
+      params[:url] = 'http://video.fc2.com' + elm.xpath(URL_PATH).first['href']
       params[:image_url] = elm.xpath(IMAGE_URL_PATH).first['src']
       params[:views] = elm.xpath(VIEWS_PATH)[1].content.to_i
       params[:bookmarks] = elm.xpath(FAVS_PATH)[2].content.to_i

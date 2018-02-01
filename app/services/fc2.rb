@@ -12,7 +12,8 @@ class Fc2
                 .attr('content').value
     @available = @title.include?('Removed') ? false : true
   rescue
-    @available = false
+    # 上のパスを書き直したら false を返すようにする
+    @available = true
   end
 
   def available?
@@ -22,16 +23,16 @@ class Fc2
   class << self
     module Constants
       # FC2からのスクレイピングのパス
-      ADULT_SEARCH_URL = 'http://video.fc2.com/en/a/movie_search.php?perpage=50&page='
-      NORMAL_SEARCH_URL = 'http://video.fc2.com/en/movie_search.php?perpage=50&page='
-      VIDEO_PATH = '//div[@class="video_list_renew clearfix"]'
-      TITLE_PATH = './div[@class="video_info_right"]/h3'
-      DURATION_PATH = './div[@class="video_list_renew_thumb"]/span'
-      URL_PATH = './div[@class="video_info_right"]/h3/a'
-      IMAGE_URL_PATH = './div[@class="video_list_renew_thumb"]/div/a/img'
-      VIEWS_PATH = './div[@class="video_info_right"]/ul/li'
-      FAVS_PATH = './div[@class="video_info_right"]/ul/li'
-      AUTHORITY_PATH = './div[@class="video_info_right"]/ul/li'
+      ADULT_SEARCH_URL = 'http://video.fc2.com/a/search/video/?keyword=&page='
+      NORMAL_SEARCH_URL = 'http://video.fc2.com/search/video/?keyword=&page='
+      VIDEO_PATH = '//li[@class="c-boxList-111_video"]'
+      TITLE_PATH = './div/a[@class="c-boxList-111_video_ttl popd"]'
+      DURATION_PATH = './div/a/span[@class="c-videoLength-101"]'
+      URL_PATH = './div/a[@class="popd"]'
+      IMAGE_URL_PATH = './div/a/div/div[@class="c-image-101_image"]'
+      VIEWS_PATH = './div/div/div/span[@class="nmb"]'
+      FAVS_PATH = './div/div/div[@class="item album"]/span[@class="nmb"]'
+      AUTHORITY_PATH = './div/div/div/div/div[@class="c-label-200"]/span'
     end
     include Constants
 
@@ -65,10 +66,10 @@ class Fc2
       params = {}
       params[:title] = elm.xpath(TITLE_PATH).first.content
       params[:duration] = elm.xpath(DURATION_PATH).first.content
-      params[:url] = 'http://video.fc2.com' + elm.xpath(URL_PATH).first['href']
-      params[:image_url] = elm.xpath(IMAGE_URL_PATH).first['src']
-      params[:views] = elm.xpath(VIEWS_PATH)[1].content.to_i
-      params[:bookmarks] = elm.xpath(FAVS_PATH)[2].content.to_i
+      params[:url] = elm.xpath(URL_PATH).first['href'] + '/'
+      params[:image_url] = elm.xpath(IMAGE_URL_PATH).first[:style].match(/\((.+)\);/)[1]
+      params[:views] = elm.xpath(VIEWS_PATH)[0].content.delete(',').to_i
+      params[:bookmarks] = elm.xpath(FAVS_PATH)[0].content.to_i
       params[:morethan100min] = (params[:duration].length == 6)
       params[:adult] = adult_flg
       params
@@ -76,9 +77,9 @@ class Fc2
 
     def video_exists_on_fc2?(elm, adult_flg)
       min_favs = adult_flg ? 30 : 2
-      (elm.xpath(FAVS_PATH)[2] &&
-        elm.xpath(FAVS_PATH)[2].content.to_i >= min_favs &&
-          elm.xpath(AUTHORITY_PATH)[0].content == 'All')
+      (elm.xpath(FAVS_PATH)[0] &&
+        elm.xpath(FAVS_PATH)[0].content.to_i >= min_favs &&
+          elm.xpath(AUTHORITY_PATH)[0].content == '全員')
     end
   end
 end

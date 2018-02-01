@@ -49,9 +49,9 @@ RSpec.describe HomeController, type: :controller do
 
   describe '#play' do
     context 'with not existance video' do
-      it 'has a 302 status code' do
+      it 'has a 302 status code => changed 200 at 2018/02/01' do
         get :play, title: video.title
-        expect(response.code).to eq('302')
+        expect(response.code).to eq('200')
       end
     end
 

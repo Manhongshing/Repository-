@@ -69,7 +69,13 @@ class Record < ActiveRecord::Base
 
     # ユーザ数総数
     def total_users_value(day)
-      History.where("created_at < '#{day}'").group('user_id').length
+      records_array = ActiveRecord::Base.connection.execute("
+        SELECT COUNT(*) FROM (
+          SELECT COUNT(*)
+          FROM `histories`
+          WHERE (created_at < '#{day}')
+           GROUP BY user_id) a")
+      records_array.map { |a| a[0].to_i }[0]
     end
 
     # 動画総数

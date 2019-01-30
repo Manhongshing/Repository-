@@ -16,10 +16,17 @@ jobs:
       - run:
           name: Install System Dependencies
           command: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+      - restore_cache:
+          keys:
+            - gem-cache-{{ checksum "Gemfile.lock" }}
       - run:
           name: bundle install
           command: |
-           bundle install
+           bundle install --path vendor/bundle
+      - save_cache:
+          key: gem-cache-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
       - run:
           name: deploy
           command: bash ./scripts/deploy.sh

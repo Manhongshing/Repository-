@@ -9,21 +9,22 @@ class Record < ActiveRecord::Base
     module Constants
       REPORT_LIST = %w( total_play_his total_play_his_a total_favs total_users
                         total_reg_users total_videos total_updated_videos )
+      REPORT_CYCLE = 30 # 日
     end
     include Constants
 
     def create_all_his
       Record.delete_all
-      # 2014-10-08 から7日に1回
+      # 2014-10-08 から30日に1回
       weeks_to_calc.times do |i|
-        day = (start_day + (i * 7))
+        day = (start_day + (i * REPORT_CYCLE))
         create_a_record_of(day)
       end
     end
 
     def create_yesterday_his
-      # 2014-10-08から7の倍数日経っていた場合
-      create_a_record_of(Date.today) if days_to_calc % 7 == 0
+      # 2014-10-08からREPORT_CYCLEの倍数日経っていた場合
+      create_a_record_of(Date.today) if days_to_calc % REPORT_CYCLE == 0
     end
 
     def start_day
@@ -36,7 +37,7 @@ class Record < ActiveRecord::Base
 
     def weeks_to_calc
       # 計算すべき日数から計算すべき週数を計算する
-      (days_to_calc - (days_to_calc % 7)) / 7 + 1
+      (days_to_calc - (days_to_calc % REPORT_CYCLE)) / REPORT_CYCLE + 1
     end
 
     def create_a_record_of(day)

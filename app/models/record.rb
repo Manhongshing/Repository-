@@ -96,7 +96,7 @@ class Record < ActiveRecord::Base
       result = initialize_report
       result[:weeks] = weeks_to_calc
       weeks_to_calc.times do |i|
-        day = start_day + i * 7
+        day = start_day + i * REPORT_CYCLE
         REPORT_LIST.each do |kind|
           result[kind.to_sym] << Record.of(kind, day).value
         end

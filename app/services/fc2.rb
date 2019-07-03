@@ -7,10 +7,16 @@ class Fc2
 
   def initialize(url)
     page = Nokogiri::HTML(open(url))
-    @title = page.css('meta[@itemprop="name"]').attr('content').value
-    @duration = page.css('meta[@property="video:duration"]')
-                .attr('content').value
-    @available = @title && !@title.include?('Removed') ? true : false
+    if page.css('meta[@itemprop="name"]').empty?
+      @available = false
+    else
+      @title = page.css('meta[@itemprop="name"]').attr('content').value
+      @duration = page.css('meta[@property="video:duration"]')
+                  .attr('content').value
+      @available = @title.include?('Removed') ? false : true
+    end
+  rescue OpenURI::HTTPError
+    @available = false
   rescue
     # 上のパスを書き直したら false を返すようにする
     @available = true

@@ -10,7 +10,7 @@ class Fc2
     @title = page.css('meta[@itemprop="name"]').attr('content').value
     @duration = page.css('meta[@property="video:duration"]')
                 .attr('content').value
-    @available = @title.include?('Removed') ? false : true
+    @available = @title && !@title.include?('Removed') ? true : false
   rescue
     # 上のパスを書き直したら false を返すようにする
     @available = true

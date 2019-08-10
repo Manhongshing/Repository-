@@ -21,6 +21,10 @@ class HomeController < ApplicationController
     @video = Video.find_by_title(params[:title])
     return redirect_to root_url unless available_video?
 
+    $tracker.track(user_id, 'Play Video')
+    $tracker.track(user_id, 'Play ' + @video.title)
+    $tracker.people.increment(user_id, {'Playing Videos' => 1})
+
     set_ranking
     set_user_info
     @window = Window.new(window_size)
@@ -30,6 +34,11 @@ class HomeController < ApplicationController
 
   def search
     set_search_conditions
+
+    keywords_str = @keywords_array.join(',')
+    $tracker.track(user_id, 'Search')
+    $tracker.track(user_id, "Search #{keywords_str} #{@bookmarks} #{@duration}")
+
     @results = Video.search(@keywords_array, @bookmarks, @duration)
     toast :warning, '検索結果が多すぎるため、一部のみ表示しています' if @results.count == SEARCH_LIMIT
 
@@ -41,6 +50,8 @@ class HomeController < ApplicationController
   end
 
   def report
+    $tracker.track(user_id, '404Report')
+
     if Video.find_by_title(params[:title]).destroy
       toast :success, '報告を受け取りました。ご協力ありがとうございます!'
     else

@@ -41,6 +41,9 @@ gem 'activerecord-import'
 
 gem 'unicorn'
 
+### for mixpanel
+gem 'mixpanel-ruby'
+
 group :deployment do
   ### for preloader
   gem 'spring'

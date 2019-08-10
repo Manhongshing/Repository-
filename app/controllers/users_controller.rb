@@ -3,6 +3,9 @@ class UsersController < ApplicationController
   after_action :flash_clear, only: [:update]
 
   def create
+    $tracker.track(user_id, 'Register User')
+    temp_user_id = user_id
+
     @user = User.new(user_params)
     @user.size = DEFAULT_WINDOW_SIZE
     if valid_user?
@@ -12,6 +15,10 @@ class UsersController < ApplicationController
         toast :error, '登録に失敗しました。もう一度試してみてください'
       end
     end
+
+    $tracker.people.set(@user.id, {'$first_name' => @user.name});
+    $tracker.alias(@user.id, temp_user_id)
+
     redirect_to previous_page_path
   end
 
@@ -27,6 +34,8 @@ class UsersController < ApplicationController
 
   # Ajax for updating window size
   def update
+    $tracker.track(user_id, 'update Window size')
+
     @window = Window.new(window_params[:size])
     if @window.valid? && @user.update(window_params)
       toast :success, "ウィンドウサイズを #{@window.category} に変更しました。"

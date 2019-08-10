@@ -2,6 +2,8 @@ class WindowsController < ApplicationController
   after_action :flash_clear
 
   def change_size
+    $tracker.track(user_id, 'update Window size')
+
     @window = Window.new(params[:size])
     if @window.valid?
       session[:size] = @window.size

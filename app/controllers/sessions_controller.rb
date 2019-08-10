@@ -4,6 +4,11 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by_name(params[:name])
+
+    $tracker.track(user.id, 'Login')
+    # TODO 既存のユーザの名前を登録するために入れているので、2020年になったらここは消す。 (新規登録時に登録されるので)
+    $tracker.people.set(user.id, {'$first_name' => user.name});
+
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       toast :success, 'ログインしました'
@@ -14,6 +19,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    $tracker.track(user_id, 'Logout')
+
     session[:user_id] = nil
     toast :success, 'ログアウトしました'
     redirect_to previous_page_path

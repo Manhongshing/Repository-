@@ -7,12 +7,10 @@ class Fc2
 
   def initialize(url)
     page = Nokogiri::HTML(open(url))
-    if page.css('meta[@itemprop="name"]').empty?
+    if page.css('h2[@class="videoCnt_title"]').empty?
       @available = false
     else
-      @title = page.css('meta[@itemprop="name"]').attr('content').value
-      @duration = page.css('meta[@property="video:duration"]')
-                  .attr('content').value
+      @title = page.css('h2[@class="videoCnt_title"]').text
       @available = @title.include?('Removed') ? false : true
     end
   rescue OpenURI::HTTPError

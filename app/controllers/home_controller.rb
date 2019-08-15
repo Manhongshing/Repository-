@@ -66,10 +66,10 @@ class HomeController < ApplicationController
     if @video.blank?
       toast :error, 'タイトルに何か問題があるようです'
       false
-    elsif !@video.available_on_fc2?
-      toast :error, 'この動画はFC2で既に削除されているようです'
-      @video.destroy
-      false
+    #elsif !@video.available_on_fc2?
+    #  toast :error, 'この動画はFC2で既に削除されているようです'
+    #  @video.destroy
+    #  false
     else
       true
     end

@@ -22,7 +22,7 @@ gem 'whenever', require: false
 gem 'toastr-rails'
 
 ### for database ###
-gem 'mysql2'
+gem 'mysql2', '~> 0.4.9'
 
 ### for scraping
 gem 'nokogiri', '~> 1.8.1'

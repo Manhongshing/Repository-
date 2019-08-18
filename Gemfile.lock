@@ -153,7 +153,7 @@ GEM
     minitest (5.10.2)
     mixpanel-ruby (2.2.1)
     multi_json (1.12.1)
-    mysql2 (0.4.6)
+    mysql2 (0.4.10)
     nenv (0.3.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -322,7 +322,7 @@ DEPENDENCIES
   jbuilder (~> 2.2)
   jquery-rails
   mixpanel-ruby
-  mysql2
+  mysql2 (~> 0.4.9)
   nokogiri (~> 1.8.1)
   non-stupid-digest-assets
   paranoia (~> 2.0)
@@ -345,4 +345,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.17.2
+   1.17.3

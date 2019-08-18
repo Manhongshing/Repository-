@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.size = DEFAULT_WINDOW_SIZE
     if valid_user?
-      if @user.save_and_rewrite_his(session[:user_id])
+      if @user.save_and_rewrite_his(temp_user_id)
         toast :success, '登録しました'
       else
         toast :error, '登録に失敗しました。もう一度試してみてください'

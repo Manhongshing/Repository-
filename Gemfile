@@ -66,6 +66,7 @@ group :development, :test do
   gem 'byebug'
 
   gem 'rspec-rails'
+  gem 'rspec-retry'
   gem 'guard-rails'
   ### for coverage
   gem 'coveralls', require: false
@@ -73,9 +74,12 @@ group :development, :test do
   ### for rspec one-liner
   gem 'shoulda-matchers'
   gem 'timecop'
-  gem 'poltergeist'
   gem 'factory_girl_rails'
   gem 'database_rewinder'
+
+  ### for scenario test using browser
+  gem 'capybara'
+  gem 'selenium-webdriver'
 end
 
 # Use SCSS for stylesheets

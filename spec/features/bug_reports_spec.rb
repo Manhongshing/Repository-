@@ -1,7 +1,7 @@
 require 'rails_helper'
 include DataHelper
 
-RSpec.describe BugReport, type: :feature do
+RSpec.describe 'BugReportScenario', type: :feature, js: true do
   before(:each) do
     create_base_data
   end
@@ -11,7 +11,9 @@ RSpec.describe BugReport, type: :feature do
       pre_count = BugReport.count
       visit '/'
       click_button('バグ報告')
+      sleep 1
       fill_in 'content', with: '重大なバグがありました'
+      sleep 2
       click_button('送信')
 
       sleep 1

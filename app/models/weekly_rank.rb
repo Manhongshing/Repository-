@@ -67,14 +67,5 @@ class WeeklyRank < ActiveRecord::Base
         .select('video_id, count(*) as count')
         .each_with_object({}) { |his, hash| hash[his.video_id] = his.count }
     end
-
-    def create_dummy
-      WeeklyRank.delete_all
-      videos = Video.all.limit(500).each_with_object([]) do |v, arr|
-        arr << WeeklyRank.new(video_id: v.id)
-      end
-      WeeklyRank.import videos
-      MonthlyRank.create_dummy if MonthlyRank.all.size != 500
-    end
   end
 end

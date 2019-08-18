@@ -5,9 +5,11 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by_name(params[:name])
 
-    $tracker.track(user.id, 'Login')
-    # TODO 既存のユーザの名前を登録するために入れているので、2020年になったらここは消す。 (新規登録時に登録されるので)
-    $tracker.people.set(user.id, {'$first_name' => user.name});
+    if user
+      $tracker.track(user.id, 'Login')
+      # TODO 既存のユーザの名前を登録するために入れているので、2020年になったらここは消す。 (新規登録時に登録されるので)
+      $tracker.people.set(user.id, {'$first_name' => user.name})
+    end
 
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id

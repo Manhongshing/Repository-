@@ -1,7 +1,7 @@
 require 'rails_helper'
 include DataHelper
 
-RSpec.describe HomeController, type: :feature do
+RSpec.describe 'HomeScenario', type: :feature, js: true do
   before(:each) do
     create_base_data
   end
@@ -28,14 +28,19 @@ RSpec.describe HomeController, type: :feature do
       fill_in 'keyword', with: 'f*ckingtosh'
       click_button('検　索')
       sleep 1
-      expect(page).to have_content('110 entries')
+      expect(page).to have_content('12 entries')
 
-      fill_in 'keyword', with: 'f*ckingtosh108'
+      video = Video.last
+      video.bookmarks = 4000
+      video.duration = '12:34'
+      video.save
+
+      fill_in 'keyword', with: video.title
       select 'これはヤバい(2000~)', from: 'bookmarks'
       select '少し短め(10~30分)', from: 'duration'
       click_button('検　　索')
       sleep 1
-      expect(page).to have_content('10:23')
+      expect(page).to have_content('12:34')
       expect(page).to have_content('1 entries')
     end
   end

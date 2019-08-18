@@ -1,22 +1,19 @@
-class Record < ActiveRecord::Base
+class Record < ApplicationRecord
   scope :of, ->(type, day) {
     where('kind LIKE ?', type)
       .where(day: day)
       .first
   }
 
-  class << self
-    module Constants
-      REPORT_LIST = %w( total_play_his total_play_his_a total_favs total_users
-                        total_reg_users total_videos total_updated_videos )
-      REPORT_CYCLE = 30 # 日
-    end
-    include Constants
+  REPORT_LIST = %w( total_play_his total_play_his_a total_favs total_users
+                    total_reg_users total_videos total_updated_videos )
+  REPORT_CYCLE = 30 # 日
 
+  class << self
     def create_all_his
       Record.delete_all
       # 2014-10-08 から30日に1回
-      weeks_to_calc.times do |i|
+      months_to_calc.times do |i|
         day = (start_day + (i * REPORT_CYCLE))
         create_a_record_of(day)
       end
@@ -35,7 +32,7 @@ class Record < ActiveRecord::Base
       (Date.today - start_day).to_i
     end
 
-    def weeks_to_calc
+    def months_to_calc
       # 計算すべき日数から計算すべき週数を計算する
       (days_to_calc - (days_to_calc % REPORT_CYCLE)) / REPORT_CYCLE + 1
     end
@@ -94,8 +91,8 @@ class Record < ActiveRecord::Base
 
     def create_reports
       result = initialize_report
-      result[:weeks] = weeks_to_calc
-      weeks_to_calc.times do |i|
+      result[:weeks] = months_to_calc
+      months_to_calc.times do |i|
         day = start_day + i * REPORT_CYCLE
         REPORT_LIST.each do |kind|
           result[kind.to_sym] << Record.of(kind, day).value

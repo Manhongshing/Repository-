@@ -76,14 +76,5 @@ class MonthlyRank < ActiveRecord::Base
     def three_month_favs
       Fav.where("created_at > '#{DateTime.now - 90}'")
     end
-
-    def create_dummy
-      MonthlyRank.delete_all
-      videos = Video.all.limit(500).each_with_object([]) do |v, arr|
-        arr << MonthlyRank.new(video_id: v.id)
-      end
-      MonthlyRank.import videos
-      WeeklyRank.create_dummy if WeeklyRank.all.size != 500
-    end
   end
 end

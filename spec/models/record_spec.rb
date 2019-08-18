@@ -5,10 +5,10 @@ RSpec.describe Record do
     it 'create many records' do
       start = Date.new(2014, 10, 8)
       days = (Date.today - start).to_i
-      rest_days = (Date.today - start).to_i % 7
-      weeks = ((days - rest_days) / 7) + 1
+      rest_days = (Date.today - start).to_i % Record::REPORT_CYCLE
+      monthds = ((days - rest_days) / Record::REPORT_CYCLE) + 1
       Record.create_all_his
-      expect(Record.all.size).to eq weeks * 7
+      expect(Record.all.size).to eq monthds * Record::REPORT_LIST.length
     end
   end
 
@@ -18,7 +18,7 @@ RSpec.describe Record do
       Timecop.freeze(start_day + 7) do
         Record.create_all_his
         results = Record.create_reports
-        expect(results.size).to eq 8
+        expect(results.size).to eq 1 + Record::REPORT_LIST.length
       end
     end
   end

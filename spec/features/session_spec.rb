@@ -1,7 +1,7 @@
 require 'rails_helper'
 include DataHelper
 
-RSpec.describe SessionsController, type: :feature do
+RSpec.describe 'SessionScenario', type: :feature, js: true do
   before(:each) do
     create_base_data
   end

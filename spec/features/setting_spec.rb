@@ -1,7 +1,7 @@
 require 'rails_helper'
 include DataHelper
 
-RSpec.describe HomeController, type: :feature do
+RSpec.describe 'SettingScenario', type: :feature, js: true do
   before(:each) do
     create_base_data
   end

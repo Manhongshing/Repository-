@@ -2,39 +2,39 @@ require 'rails_helper'
 
 RSpec.describe MonthlyRank do
   before(:each) do
-    700.times do |i|
+    10.times do |i|
       create(:video4his, id: 20_002_000 + i)
       create(:history, id: 20_002_000 + i, video_id: 20_002_000 + i)
     end
     create(:history, id: 20_002_997, video_id: 20_002_000)
-    create(:history, id: 20_002_998, video_id: 20_002_100)
-    create(:history, id: 20_002_999, video_id: 20_002_100)
+    create(:history, id: 20_002_998, video_id: 20_002_005)
+    create(:history, id: 20_002_999, video_id: 20_002_005)
     create_list(:fav4his, 10)
   end
 
   describe '# Video.hot.monthly size' do
-    it 'should make 300 ranks' do
+    it 'should make ranks' do
       MonthlyRank.update
-      expect(MonthlyRank.all.size).to eq 300
+      expect(MonthlyRank.all.size).to eq 10
     end
   end
 
   describe '#videos_order_by_point' do
     it 'should order by point' do
-      expect(MonthlyRank.videos_order_by_point.first).to eq 20_002_100
+      expect(MonthlyRank.videos_order_by_point.first).to eq 20_002_005
     end
   end
 
   describe '#calc_last_month_point' do
     it 'should correctly calculate' do
-      expect(MonthlyRank.calc_last_month_point[20_002_100]).to eq 3
+      expect(MonthlyRank.calc_last_month_point[20_002_005]).to eq 3
       expect(MonthlyRank.calc_last_month_point[20_002_000]).to eq 2
     end
   end
 
   describe '#last_month_his' do
-    it 'limit 500 record' do
-      expect(MonthlyRank.last_month_his.length).to eq 500
+    it 'has 10 record' do
+      expect(MonthlyRank.last_month_his.length).to eq 10
     end
 
     it 'should have correct value' do
@@ -44,17 +44,17 @@ RSpec.describe MonthlyRank do
 
   describe '#calc_last_week_point' do
     it 'should correctly calculate' do
-      expect(MonthlyRank.calc_last_week_point([])[20_002_100]).to eq 24
+      expect(MonthlyRank.calc_last_week_point({})[20_002_005]).to eq 24
       expect(MonthlyRank.calc_last_week_point({})[20_002_000]).to eq 16
       point = {}
-      point[20_002_100] = 4
-      expect(MonthlyRank.calc_last_week_point(point)[20_002_100]).to eq 28
+      point[20_002_005] = 4
+      expect(MonthlyRank.calc_last_week_point(point)[20_002_005]).to eq 28
     end
   end
 
   describe '#last_week_his' do
-    it 'limit 500 record' do
-      expect(MonthlyRank.last_week_his.length).to eq 500
+    it 'has 10 record' do
+      expect(MonthlyRank.last_week_his.length).to eq 10
     end
 
     it 'should have correct value' do
@@ -75,13 +75,6 @@ RSpec.describe MonthlyRank do
   describe '#three_month_favs' do
     it 'should contain record in 3 months' do
       expect(MonthlyRank.three_month_favs.size).to eq 10
-    end
-  end
-
-  describe '#create_dummy' do
-    it 'should create 500 dummies' do
-      MonthlyRank.create_dummy
-      expect(MonthlyRank.all.size).to eq 500
     end
   end
 end

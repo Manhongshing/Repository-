@@ -30,7 +30,7 @@ RSpec.describe WeeklyRank do
       create(:history, user_id: 3,
                        video_id: 20_001_003,
                        created_at: DateTime.now - 1)
-      600.times do |i|
+      5.times do |i|
         create(:video4his, id: 20_001_000 + i)
         create(:history, id: 20_001_000 + i, video_id: 20_001_000 + i)
       end
@@ -76,7 +76,7 @@ RSpec.describe WeeklyRank do
 
     describe '#three_month_his' do
       it 'should contain records in 3 months' do
-        expect(WeeklyRank.three_month_his.size).to eq 607
+        expect(WeeklyRank.three_month_his.size).to eq 12
       end
     end
 
@@ -95,13 +95,6 @@ RSpec.describe WeeklyRank do
       it 'should correctly count' do
         expect(WeeklyRank.playtimes[20_001_002]).to eq 4
         expect(WeeklyRank.playtimes[20_001_003]).to eq 5
-      end
-    end
-
-    describe '#create_dummy' do
-      it 'should create 500 dummies' do
-        MonthlyRank.create_dummy
-        expect(MonthlyRank.all.size).to eq 500
       end
     end
   end

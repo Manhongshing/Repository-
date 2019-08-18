@@ -11,16 +11,39 @@ SimpleCov.start 'rails'
 
 require 'capybara/rails'
 require 'capybara/rspec'
-require 'capybara/poltergeist'
-Capybara.javascript_driver = :poltergeist
 
-Capybara.register_driver :poltergeist do |app|
-  # JS Error disable.
-  Capybara::Poltergeist::Driver.new(app, js_errors: false, timeout: 240)
-end
-Capybara.default_driver   = :rack_test
 Capybara.default_selector = :css
-Capybara.default_max_wait_time = 5
+Capybara.default_max_wait_time = 10
+Capybara.server = :webrick
+
+Capybara.register_driver :chrome_headless do |app|
+  options = ::Selenium::WebDriver::Chrome::Options.new
+
+  options.add_argument('--headless')
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-dev-shm-usage')
+  options.add_argument('--window-size=1400,1400')
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+Capybara.javascript_driver = :chrome_headless
+
+# Setup rspec
+RSpec.configure do |config|
+  # かかった時間を計測
+  config.before(:each) do
+    @start_time = Time.now
+  end
+
+  config.after(:each) do |t|
+    time_spent = Time.now - @start_time
+    if time_spent > 5
+      puts "spent too much time at #{t.metadata[:example_group][:full_description]} (#{time_spent} sec)"
+    end
+  end
+end
+
+
 
 # Add additional requires below this line. Rails is not loaded until this point!
 

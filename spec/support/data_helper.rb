@@ -8,7 +8,7 @@ module DataHelper
   private
 
   def create_new_arrivals
-    10.times do |i|
+    2.times do |i|
       next_id = last_video_id + 1
       create(:video, id: i + next_id)
       create(:new_arrival, video_id: i + next_id)
@@ -16,7 +16,7 @@ module DataHelper
   end
 
   def create_ranks
-    50.times do |i|
+    5.times do |i|
       next_id = last_video_id + 1
       create(:video, id: i + next_id)
       create(:weekly_rank, video_id: i + next_id)

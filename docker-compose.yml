@@ -9,6 +9,7 @@ services:
       - "3000:3000"
     depends_on:
       - db
+    shm_size: 256m
   db:
     image: mariadb:10.2
     volumes:

@@ -4,9 +4,8 @@ RSpec.describe Video do
   describe '#available_on_fc2?' do
     context 'url of the video is not valid' do
       it 'should return false' do
-        v = create(:video1)
-        expect(Fc2.new(v.url).available).to be_truthy
-        # expect(Fc2.new(v.url).available).to be_falsey
+        v = create(:video_not_exist)
+        expect(Fc2.new(v.url).available).to be_falsey
       end
     end
 
@@ -88,17 +87,6 @@ RSpec.describe Video do
       end
       expect(Video.weekly_rank[0].id).to eq(WeeklyRank.first.video_id)
       expect(Video.weekly_rank.size).to eq(100)
-    end
-  end
-
-  describe '#monthly_rank' do
-    it 'same videos as MonthlyRank' do
-      150.times do |i|
-        create(:video, id: i + 1)
-        create(:monthly_rank, video_id: i + 1)
-      end
-      expect(Video.monthly_rank.first.id).to eq(MonthlyRank.first.video_id)
-      expect(Video.monthly_rank.size).to eq(100)
     end
   end
 

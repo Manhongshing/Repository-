@@ -11,7 +11,7 @@ FactoryGirl.define do
     sequence(:bookmarks) { |n| n * 100 }
   end
 
-  factory :video1, class: Video do
+  factory :video_not_exist, class: Video do
     id 20_001_001
     title 'f*ckingosh'
     url 'http://video.fc2.com/hogehogehu'

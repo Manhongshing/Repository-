@@ -28,7 +28,7 @@ RSpec.describe UsersController, type: :controller do
       it 'should rewrite tmp_user history' do
         create(:history, user_id: 1_234_567)
         create(:history, user_id: 1_234_567)
-        session[:user_id] = 1_234_567
+        @request.session['temp_id'] = 1_234_567
         expect do
           post :create, params
         end.to change(User, :count).by(1)

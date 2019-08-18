@@ -1,0 +1,24 @@
+version: '3.0'
+services:
+  service:
+    build: '.'
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  db:
+    image: mariadb:10.2
+    volumes:
+      - storage:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=docker
+      - MYSQL_DATABASE=fc2play_development
+    ports:
+      - "3308:3306"
+
+
+volumes:
+  storage:

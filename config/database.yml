@@ -13,9 +13,9 @@ development:
   reconnect: false
   database: fc2play_development
   pool: 5
-  username: fc2_development
-  password: play_development
-  host: localhost
+  username: root
+  password: docker
+  host: db
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -28,9 +28,9 @@ test:
   reconnect: false
   database: fc2play_test
   pool: 5
-  username: fc2_development
-  password: play_development
-  host: localhost
+  username: root
+  password: docker
+  host: db
 
 production:
     adapter: mysql2

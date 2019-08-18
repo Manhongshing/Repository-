@@ -73,8 +73,6 @@ group :development, :test do
   ### for rspec one-liner
   gem 'shoulda-matchers'
   gem 'timecop'
-  gem 'capybara'
-  gem 'capybara-webkit'
   gem 'poltergeist'
   gem 'factory_girl_rails'
   gem 'database_rewinder'

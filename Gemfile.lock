@@ -75,9 +75,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-webkit (1.14.0)
-      capybara (>= 2.3.0, < 2.14.0)
-      json
     chronic (0.10.2)
     cliver (0.3.2)
     coderay (1.1.1)
@@ -314,8 +311,6 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rbenv
   capistrano3-unicorn
-  capybara
-  capybara-webkit
   coffee-rails (~> 4.1.0)
   coveralls
   database_rewinder

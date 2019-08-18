@@ -1,4 +1,4 @@
-class SearchHis < ActiveRecord::Base
+class SearchHis < ApplicationRecord
   class << self
     # ユーザ登録した時に、tmp_idでの履歴情報を新しいUserIdの番号に書き換える
     def rename_user_history(tmp_user_id, id)

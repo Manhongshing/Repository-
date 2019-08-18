@@ -1,4 +1,4 @@
-class Video < ActiveRecord::Base
+class Video < ApplicationRecord
   acts_as_paranoid
 
   has_many :favs, dependent: :destroy
@@ -90,7 +90,7 @@ class Video < ActiveRecord::Base
       video_ids = records.each_with_object([]) do |r, ids|
         ids << r.video_id
       end
-      query = ActiveRecord::Base.send(:sanitize_sql_array,
+      query = ApplicationRecord.send(:sanitize_sql_array,
                                       ['field(id ,?)', video_ids])
       Video.where(id: video_ids).order(query)
     end

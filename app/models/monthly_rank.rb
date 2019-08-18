@@ -1,4 +1,4 @@
-class MonthlyRank < ActiveRecord::Base
+class MonthlyRank < ApplicationRecord
   belongs_to :video
 
   class << self

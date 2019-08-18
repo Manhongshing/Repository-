@@ -22,7 +22,7 @@ before_fork do |_server, _worker|
 end
 
 before_fork do |server, _worker|
-  ActiveRecord::Base.connection.disconnect! if defined?(ActiveRecord::Base)
+  ApplicationRecord.connection.disconnect! if defined?(ApplicationRecord)
 
   old_pid = "#{server.config[:pid]}.oldbin"
   unless old_pid == server.pid
@@ -39,5 +39,5 @@ def ignore_exception
 end
 
 after_fork do |server, worker|
-  ActiveRecord::Base.establish_connection if defined?(ActiveRecord::Base)
+  ApplicationRecord.establish_connection if defined?(ApplicationRecord)
 end

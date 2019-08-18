@@ -1,11 +1,11 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   has_many :favs
   has_many :histories
   has_secure_password
   validates :name, presence: true, uniqueness: true
 
   def save_and_rewrite_his(tmp_user_id)
-    ActiveRecord::Base.transaction do
+    ApplicationRecord.transaction do
       save
       if tmp_user_id.present?
         History.rename_user_history(tmp_user_id, id)

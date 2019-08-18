@@ -67,7 +67,7 @@ class Record < ApplicationRecord
 
     # ユーザ数総数
     def total_users_value(day)
-      records_array = ActiveRecord::Base.connection.execute("
+      records_array = ApplicationRecord.connection.execute("
         SELECT COUNT(*) FROM (
           SELECT COUNT(*)
           FROM `histories`

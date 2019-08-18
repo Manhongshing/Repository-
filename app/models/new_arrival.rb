@@ -1,4 +1,4 @@
-class NewArrival < ActiveRecord::Base
+class NewArrival < ApplicationRecord
   belongs_to :video
 
   class << self

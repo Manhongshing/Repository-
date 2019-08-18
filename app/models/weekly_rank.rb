@@ -1,4 +1,4 @@
-class WeeklyRank < ActiveRecord::Base
+class WeeklyRank < ApplicationRecord
   belongs_to :video
 
   class << self

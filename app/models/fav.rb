@@ -1,4 +1,4 @@
-class Fav < ActiveRecord::Base
+class Fav < ApplicationRecord
   belongs_to :user
   belongs_to :video
   validates :video_id, presence: true

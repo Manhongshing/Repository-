@@ -25,7 +25,7 @@ gem 'toastr-rails'
 gem 'mysql2'
 
 ### for scraping
-gem 'nokogiri', '~> 1.8.1'
+gem 'nokogiri', '~> 1.10.8'
 
 ### for soft-delete
 gem 'paranoia', '~> 2.0'
